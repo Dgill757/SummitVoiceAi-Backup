@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { Clock3, ShieldCheck, Star, TrendingUp } from 'lucide-react'
 
 import { SplineScene } from '@/components/ui/splite'
 import CalendarDialog from './CalendarDialog'
@@ -282,7 +283,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
             <button
               onClick={() => setCalendarOpen(true)}
               className="btn-primary"
-              style={{ padding: '1rem 2.2rem', fontSize: '1rem' }}
+              style={{
+                padding: '1rem 2.2rem',
+                fontSize: '1rem',
+                boxShadow: '0 18px 45px rgba(59,130,246,0.28), 0 0 0 1px rgba(255,255,255,0.08) inset',
+              }}
             >
               <span>Book a Free Demo</span>
             </button>
@@ -307,6 +312,21 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
                 Hear Ava
               </span>
             </button>
+          </div>
+
+          <div className="mb-4 flex flex-wrap items-center gap-2 text-xs">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1.5 text-cyan-200">
+              <Clock3 className="h-3.5 w-3.5" />
+              24/7 instant answer
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-violet-400/30 bg-violet-400/10 px-3 py-1.5 text-violet-200">
+              <TrendingUp className="h-3.5 w-3.5" />
+              Revenue recovery automation
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1.5 text-emerald-200">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Enterprise-grade reliability
+            </span>
           </div>
 
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
@@ -343,6 +363,30 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
                 </div>
               )
             )}
+          </div>
+
+          <div
+            style={{
+              marginTop: '1rem',
+              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02))',
+              borderRadius: 14,
+              padding: '0.8rem 0.95rem',
+              maxWidth: 520,
+              backdropFilter: 'blur(10px)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.35rem' }}>
+              {Array.from({ length: 5 }).map((_, idx) => (
+                <Star key={idx} className="h-3.5 w-3.5 fill-cyan-300 text-cyan-300" />
+              ))}
+              <span style={{ marginLeft: '0.4rem', fontSize: '0.72rem', color: 'rgba(255,255,255,0.64)' }}>
+                4.9/5 from service-business owners
+              </span>
+            </div>
+            <p style={{ margin: 0, fontSize: '0.86rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.5 }}>
+              "We recovered lost calls in week one and filled our calendar without adding headcount."
+            </p>
           </div>
 
           <div
