@@ -12,6 +12,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
   const [scrollProgress, setScrollProgress] = useState(0)
   const heroRef = useRef<HTMLDivElement>(null)
   const highlightRef = useRef<HTMLDivElement>(null)
+  const robotLayerRef = useRef<HTMLDivElement>(null)
+  const statsLayerRef = useRef<HTMLDivElement>(null)
   const cursorRef = useRef({ x: 0.5, y: 0.5 })
   const lerpRef = useRef({ x: 0.5, y: 0.5 })
   const rafCursorRef = useRef(0)
@@ -42,6 +44,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
       if (heroRef.current) {
         heroRef.current.style.setProperty('--mx', `${(lerpRef.current.x * 100).toFixed(2)}%`)
         heroRef.current.style.setProperty('--my', `${(lerpRef.current.y * 100).toFixed(2)}%`)
+      }
+      if (robotLayerRef.current) {
+        const rx = (lerpRef.current.x - 0.5) * 22
+        const ry = (lerpRef.current.y - 0.5) * 14
+        robotLayerRef.current.style.transform =
+          `translate3d(${rx.toFixed(2)}px, ${ry.toFixed(2)}px, 0)`
+      }
+      if (statsLayerRef.current) {
+        const sx = (lerpRef.current.x - 0.5) * 14
+        const sy = (lerpRef.current.y - 0.5) * 10
+        statsLayerRef.current.style.transform =
+          `translate3d(${sx.toFixed(2)}px, ${sy.toFixed(2)}px, 0)`
       }
       rafCursorRef.current = requestAnimationFrame(tick)
     }
@@ -124,11 +138,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
         }}
       >
         <div
+          ref={robotLayerRef}
           className="absolute inset-0"
           style={{
             maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.75) 30%, black 48%)',
             WebkitMaskImage:
               'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.75) 30%, black 48%)',
+            transition: 'transform 80ms linear',
+            willChange: 'transform',
           }}
         >
           <SplineScene
@@ -175,8 +192,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
           width: '100%',
           margin: '0 auto',
           padding: '0 1.5rem',
-          paddingTop: '7rem',
-          paddingBottom: '6rem',
+          paddingTop: '6.2rem',
+          paddingBottom: '5.25rem',
           display: 'flex',
           alignItems: 'center',
           gap: '3rem',
@@ -193,7 +210,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
               border: '1px solid rgba(0,200,220,0.30)',
               borderRadius: 999,
               padding: '0.45rem 1.1rem',
-              marginBottom: '2rem',
+              marginBottom: '1.6rem',
             }}
           >
             <span
@@ -225,7 +242,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
               fontSize: 'clamp(2.6rem, 5.5vw, 4.8rem)',
               lineHeight: 1.06,
               letterSpacing: '-0.035em',
-              marginBottom: '1.5rem',
+              marginBottom: '1.15rem',
               color: '#fff',
             }}
           >
@@ -252,7 +269,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
               fontSize: 'clamp(1rem, 2vw, 1.2rem)',
               lineHeight: 1.65,
               color: 'rgba(255,255,255,0.62)',
-              marginBottom: '2.5rem',
+              marginBottom: '2rem',
               maxWidth: 520,
               fontWeight: 400,
             }}
@@ -327,9 +344,51 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
               )
             )}
           </div>
+
+          <div
+            style={{
+              marginTop: '1.2rem',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: '0.85rem',
+              color: 'rgba(255,255,255,0.58)',
+              fontSize: '0.74rem',
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+            }}
+          >
+            <span style={{ color: 'rgba(255,255,255,0.45)' }}>Trusted by teams using</span>
+            {['GoHighLevel', 'HubSpot', 'Salesforce', 'Google Calendar'].map((item) => (
+              <span
+                key={item}
+                style={{
+                  padding: '0.32rem 0.55rem',
+                  borderRadius: 999,
+                  border: '1px solid rgba(255,255,255,0.11)',
+                  background: 'rgba(255,255,255,0.03)',
+                  color: 'rgba(255,255,255,0.75)',
+                  fontWeight: 600,
+                }}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div className="hidden lg:flex" style={{ flex: '0 0 auto', width: 320, position: 'relative', height: 420 }}>
+        <div
+          ref={statsLayerRef}
+          className="hidden lg:flex"
+          style={{
+            flex: '0 0 auto',
+            width: 320,
+            position: 'relative',
+            height: 420,
+            transition: 'transform 80ms linear',
+            willChange: 'transform',
+          }}
+        >
           <div
             className="stat-drift"
             style={{
