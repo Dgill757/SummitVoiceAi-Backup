@@ -39,6 +39,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
         highlightRef.current.style.transform =
           `translate(calc(-50% + ${tx.toFixed(2)}px), calc(-50% + ${ty.toFixed(2)}px))`
       }
+      if (heroRef.current) {
+        heroRef.current.style.setProperty('--mx', `${(lerpRef.current.x * 100).toFixed(2)}%`)
+        heroRef.current.style.setProperty('--my', `${(lerpRef.current.y * 100).toFixed(2)}%`)
+      }
       rafCursorRef.current = requestAnimationFrame(tick)
     }
     rafCursorRef.current = requestAnimationFrame(tick)
@@ -96,22 +100,40 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
       />
 
       <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 1,
+          pointerEvents: 'none',
+          background:
+            'radial-gradient(300px circle at var(--mx,70%) var(--my,45%), rgba(255,255,255,0.22), rgba(255,255,255,0.08) 35%, transparent 70%)',
+          mixBlendMode: 'screen',
+          opacity: 0.75,
+        }}
+      />
+
+      <div
         style={{
           position: 'absolute',
           inset: 0,
           zIndex: 1,
           opacity: 1 - scrollProgress * 0.8,
           transition: 'opacity 0.1s linear',
-          pointerEvents: 'none',
+          pointerEvents: 'auto',
         }}
       >
         <div
-          className="absolute right-[-8%] top-1/2 h-[88vh] w-[60vw] min-w-[460px] max-w-[980px] -translate-y-1/2 md:right-[-2%] md:w-[52vw] lg:w-[48vw]"
-          style={{ pointerEvents: 'auto' }}
+          className="absolute inset-0"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.75) 30%, black 48%)',
+            WebkitMaskImage:
+              'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.75) 30%, black 48%)',
+          }}
         >
           <SplineScene
             scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-            className="h-full w-full"
+            className="h-full w-full scale-[1.18] translate-x-[18%] md:scale-[1.24] md:translate-x-[20%] lg:scale-[1.28] lg:translate-x-[22%]"
           />
         </div>
 
@@ -220,9 +242,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ calendarOpen, setCalendarOpen
             </span>{' '}
             -
             <br />
-            Your AI Voice
+            Your 24/7 Revenue
             <br className="hidden sm:block" />
-            Agent
+            Recovery Agent
           </h1>
 
           <p
